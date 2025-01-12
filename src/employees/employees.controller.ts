@@ -1,23 +1,33 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
-  Query,
+  Get,
+  Param,
   ParseIntPipe,
+  Patch,
+  Post,
+  Query,
+  ValidationPipe,
 } from '@nestjs/common';
+import { Role } from '@prisma/client';
+import { CreateEmployeeDto } from './create-employee-dto';
 import { EmployeesService } from './employees.service';
-import { Prisma, Role } from '@prisma/client';
+import { UpdateEmployeeDto } from './update-employee-dto';
 
 @Controller('employees')
 export class EmployeesController {
   constructor(private readonly employeesService: EmployeesService) {}
 
+  // this also works for validation and it provides more customization options
+  // @Post()
+  // @UsePipes(new ValidationPipe({ transform: true }))
+  // create(@Body() createEmployeeDto: CreateEmployeeDto) {
+  //   return this.employeesService.create(createEmployeeDto);
+  // }
+
   @Post()
-  create(@Body() createEmployeeDto: Prisma.EmployeeCreateInput) {
+  create(@Body(ValidationPipe) createEmployeeDto: CreateEmployeeDto) {
     return this.employeesService.create(createEmployeeDto);
   }
 
@@ -34,7 +44,7 @@ export class EmployeesController {
   @Patch(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() updateEmployeeDto: Prisma.EmployeeUpdateInput,
+    @Body(ValidationPipe) updateEmployeeDto: UpdateEmployeeDto,
   ) {
     return this.employeesService.update(id, updateEmployeeDto);
   }

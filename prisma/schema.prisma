@@ -24,6 +24,6 @@ model Employee {
 
 enum Role {
   admin
-  enginner
+  engineer
   intern
 }
