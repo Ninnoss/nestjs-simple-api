@@ -11,9 +11,9 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { Role } from '@prisma/client';
-import { CreateEmployeeDto } from './create-employee-dto';
+import { CreateEmployeeDto } from './dto/create-employee-dto';
 import { EmployeesService } from './employees.service';
-import { UpdateEmployeeDto } from './update-employee-dto';
+import { UpdateEmployeeDto } from './dto/update-employee-dto';
 
 @Controller('employees')
 export class EmployeesController {
