@@ -79,7 +79,7 @@ export class EmployeesService {
   }
 
   async remove(id: number) {
-    const employee = await this.databaseService.employee.delete({
+    const employee = await this.databaseService.employee.findUnique({
       where: {
         id,
       },
@@ -89,6 +89,12 @@ export class EmployeesService {
       throw new NotFoundException('Employee not found');
     }
 
-    return employee;
+    await this.databaseService.employee.delete({
+      where: {
+        id,
+      },
+    });
+
+    return 'Employee deleted Successfully';
   }
 }
