@@ -3,8 +3,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { EmployeesModule } from './employees/employees.module';
-import { DatabaseModule } from './databse/database.module';
-import { DatabaseService } from './databse/database.service';
+import { DatabaseModule } from './database/database.module';
+import { DatabaseService } from './database/database.service';
 
 @Module({
   imports: [UsersModule, DatabaseModule, EmployeesModule],

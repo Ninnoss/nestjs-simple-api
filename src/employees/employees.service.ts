@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { Prisma, Role } from '@prisma/client';
-import { DatabaseService } from 'src/databse/database.service';
+import { DatabaseService } from 'src/database/database.service';
 import { UpdateEmployeeDto } from './update-employee-dto';
 
 @Injectable()
