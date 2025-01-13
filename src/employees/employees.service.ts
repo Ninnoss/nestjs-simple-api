@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ConflictException,
   Injectable,
   NotFoundException,
@@ -27,15 +28,32 @@ export class EmployeesService {
     });
   }
 
-  findAll(role?: Role) {
+  async findAll(role?: Role) {
+    // Define accepted roles
+    const acceptedRoles = Object.values(Role);
+
+    // If a role is provided, check if it's valid
     if (role) {
-      return this.databaseService.employee.findMany({
-        where: {
-          role,
-        },
+      if (!acceptedRoles.includes(role)) {
+        throw new BadRequestException(
+          `Invalid role: ${role}. Accepted roles are: ${acceptedRoles.join(', ')}`,
+        );
+      }
+
+      const usersWithRole = await this.databaseService.employee.findMany({
+        where: { role },
       });
+
+      // Check if any users were found with the specified role
+      if (usersWithRole.length === 0) {
+        throw new NotFoundException(`No users found with role: ${role}`);
+      }
+
+      return usersWithRole;
     }
-    return this.databaseService.employee.findMany();
+
+    // If no role is provided, fetch all users
+    return await this.databaseService.employee.findMany();
   }
 
   async findOne(id: number) {
